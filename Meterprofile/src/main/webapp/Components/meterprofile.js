@@ -11,7 +11,7 @@ $(document).on("click", "#btnSave", function(event) {
 	$("#alertError").hide();
 
 	// Form validation-------------------
-	var status = validateItemForm();
+	var status = validateMeterprofileForm();
 	// If not valid
 	if (status != true) {
 		$("#alertError").text(status);
@@ -19,7 +19,7 @@ $(document).on("click", "#btnSave", function(event) {
 		return;
 	}
 	// If valid----------------------- 
-	var type = ($("#hidItemIDSave").val() == "") ? "POST" : "PUT";
+	var type = ($("#hidMeterprofileSave").val() == "") ? "POST" : "PUT";
 	$.ajax(
 		{
 			url: "MeterprofileServlet",
@@ -31,29 +31,20 @@ $(document).on("click", "#btnSave", function(event) {
 			}
 		});
 
-	// Generate the card and append
-	var student = getStudentCard($("#txtName").val().trim(),
-		$('input[name="rdoGender"]:checked').val(),
-		$("#ddlYear").val());
-	$("#colStudents").append(student);
-
-	$("#alertSuccess").text("Saved successfully.");
-	$("#alertSuccess").show();
-
-	$("#formStudent")[0].reset();
+	
 
 });
 
 $(document).on("click", ".btnUpdate", function(event) {
 	$("#hidMeterprofileIDSave").val($(this).data("id"));
-	$("#itemCode").val($(this).closest("tr").find('td:eq(0)').text());
-	$("#itemName").val($(this).closest("tr").find('td:eq(1)').text());
-	$("#itemPrice").val($(this).closest("tr").find('td:eq(2)').text());
-	$("#itemDesc").val($(this).closest("tr").find('td:eq(3)').text());
-	$("#itemCode").val($(this).closest("tr").find('td:eq(0)').text());
-	$("#itemName").val($(this).closest("tr").find('td:eq(1)').text());
-	$("#itemPrice").val($(this).closest("tr").find('td:eq(2)').text());
-	$("#itemDesc").val($(this).closest("tr").find('td:eq(3)').text());
+	$("#id").val($(this).closest("tr").find('td:eq(0)').text());
+	$("#name").val($(this).closest("tr").find('td:eq(1)').text());
+	$("#connection_type").val($(this).closest("tr").find('td:eq(2)').text());
+	$("#estimated_power_consumption").val($(this).closest("tr").find('td:eq(3)').text());
+	$("#owner").val($(this).closest("tr").find('td:eq(0)').text());
+	$("#initialized_date").val($(this).closest("tr").find('td:eq(1)').text());
+	$("#initialized_emp").val($(this).closest("tr").find('td:eq(2)').text());
+	$("#location").val($(this).closest("tr").find('td:eq(3)').text());
 });
 
 $(document).on("click", ".btnRemove", function(event) {
@@ -72,31 +63,37 @@ $(document).on("click", ".btnRemove", function(event) {
 
 function validateItemForm() {
 	// Account number
-	if ($("#accountNum").val().trim() == "") {
+	if ($("#id").val().trim() == "") {
 		return "Insert Account number.";
 	}
 	// Customer name
-	if ($("#Name").val().trim() == "") {
+	if ($("#name").val().trim() == "") {
 		return "Insert Customer name.";
 	}
-	// Contact number
-	if ($("#contactNum").val().trim() == "") {
-		return "Insert Contact number.";
+	
+	if ($("#connection_type").val().trim() == "") {
+		return "Insert connection type.";
+	}
+	if ($("#estimated_power_consumption").val().trim() == "") {
+		return "Insert power consumption.";
+	}
+	if ($("#owner").val().trim() == "") {
+		return "Insert owner.";
+	}
+	if ($("#initialized_date").val().trim() == "") {
+		return "Insert date.";
+	}
+	if ($("#location").val().trim() == "") {
+		return "Insert location.";
 	}
 	// is numerical value
-	var tmpContact = $("#contactNum").val().trim();
-	if (!$.isNumeric(tmpContact)) {
-		return "Insert a numerical value for Contact number.";
+	var consumption = $("#estimated_power_consumption").val().trim();
+	if (!$.isNumeric(consumption)) {
+		return "Insert a numerical value.";
 	}
 
-	// Email address
-	if ($("#email").val().trim() == "") {
-		return "Insert Email address.";
-	}
-	// Inquiry details
-	if ($("#inquiryDet").val().trim() == "") {
-		return "Insert your Inquiry.";
-	}
+
+	
 	return true;
 }
 
@@ -123,7 +120,7 @@ function onMeterprofileSaveComplete(response, status) {
 	$("#formMeterprofile")[0].reset();
 }
 
-function onItemDeleteComplete(response, status) {
+function onMeterprofileDeleteComplete(response, status) {
 	if (status == "success") {
 		var resultSet = JSON.parse(response);
 		if (resultSet.status.trim() == "success") {

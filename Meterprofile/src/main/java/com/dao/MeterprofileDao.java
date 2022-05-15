@@ -41,7 +41,7 @@ public class MeterprofileDao {
 				+ "(id, name, connection_type,estimated_power_consumptionl, owner, initialized_date, initialized_emp, location) values"
 				+ "(?, ?, ?, ?, ?, ?, ?, ?);";
 		System.out.println("registerMeterprofile");
-		int result = 0;
+
 		String output = "";
 		try {
 			Connection connection = getConnection();

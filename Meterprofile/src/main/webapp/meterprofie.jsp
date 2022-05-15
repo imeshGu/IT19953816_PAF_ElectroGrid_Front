@@ -1,16 +1,17 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@page import="com.dao.MeterprofileDao" %>
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
+<title>I</title>
 
-<title>Dashboard</title>
 
 <!-- Custom fonts for this template-->
 <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
@@ -21,15 +22,7 @@
 
 <!-- Custom styles for this template-->
 <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
-
-
-<script src="Components/jquery-3.6.0.min.js"></script>
-<script src="Components/meterprofile.js"></script>
-
-
 </head>
-
 <body id="page-top">
 
 	<!-- Page Wrapper -->
@@ -320,8 +313,7 @@
 										</div>
 										<input type="hidden" id="hidMeterprofileSave" name="hidMeterprofileSave" value="">
 										<input type="hidden" id="hidMeterprofileSave" name="hidMeterprofileSave" value=""> 
-										<% MeterprofileDao meterDao;
-										out.print(meterDao.selectAllMeterprofile()); %>
+										<!--   MeterprofileDao meterDao= new MeterprofileDao();out.print(meterDao.selectAllMeterprofile()); -->
 
 									</form>
 								</div>
@@ -422,7 +414,8 @@
 		  });
 	}
 	
-	
+	<script src="Components/jquery.min.js" type="text/javascript"></script>
+	<script src="Components/meterprofile.js" type="text/javascript"></script>
 	</script>
 </body>
 
