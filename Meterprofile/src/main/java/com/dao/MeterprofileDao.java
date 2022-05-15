@@ -35,7 +35,8 @@ public class MeterprofileDao {
 	
 
 	// insert data into meterprofile database
-	public String registerMeterprofile(Meterprofile meterprofile) {
+	public String registerMeterprofile(String id, String name, String connection_type, 
+			 String estimated_power_consumption, String owner, String initialized_date, String initialized_emp, String location) {
 		String insert_meterprofile = "insert into electrogrid_meterprofile.meterprofile"
 				+ "(id, name, connection_type,estimated_power_consumptionl, owner, initialized_date, initialized_emp, location) values"
 				+ "(?, ?, ?, ?, ?, ?, ?, ?);";
@@ -50,14 +51,14 @@ public class MeterprofileDao {
 			 } 
 			PreparedStatement preparedStatement = connection.prepareStatement(insert_meterprofile);
 
-			preparedStatement.setString(1, meterprofile.getId());
-			preparedStatement.setString(2, meterprofile.getName());
-			preparedStatement.setString(3, meterprofile.getConnection_type());
-			preparedStatement.setString(4, meterprofile.getEstimated_power_consumption());
-			preparedStatement.setString(5, meterprofile.getOwner());
-			preparedStatement.setString(6, meterprofile.getInitialized_date());
-			preparedStatement.setString(7, meterprofile.getInitialized_emp());
-			preparedStatement.setString(8, meterprofile.getLocation());
+			preparedStatement.setString(1, id);
+			preparedStatement.setString(2, name);
+			preparedStatement.setString(3, connection_type);
+			preparedStatement.setString(4, estimated_power_consumption);
+			preparedStatement.setString(5, owner);
+			preparedStatement.setString(6, initialized_date);
+			preparedStatement.setString(7, initialized_emp);
+			preparedStatement.setString(8, location);
 
 			System.out.println(preparedStatement);
 			preparedStatement.executeUpdate();
@@ -247,7 +248,8 @@ public class MeterprofileDao {
 
 	}
 	//update meter profile
-	public String updateMeterprofile(Meterprofile meter) {
+	public String updateMeterprofile(String id, String name, String connection_type, 
+			 String estimated_power_consumption, String owner, String initialized_date, String initialized_emp, String location) {
 		String update_meterprofile = "update electrogrid_meterprofile.meterprofile set name=?,connection_type=?,estimated_power_consumption=?,owner=?,initialized_date=?,initialized_emp=?,location=? where id=?;";
 
 	
@@ -260,14 +262,14 @@ public class MeterprofileDao {
 				return "Error while connecting to the database for updating."; 
 			 } 
 			PreparedStatement statement = connection.prepareStatement(update_meterprofile);
-			statement.setString(1, meter.getName());
-			statement.setString(2, meter.getConnection_type());
-			statement.setString(3, meter.getEstimated_power_consumption());
-			statement.setString(4, meter.getOwner());
-			statement.setString(5, meter.getInitialized_date());
-			statement.setString(6, meter.getInitialized_emp());
-			statement.setString(7, meter.getLocation());
-			statement.setString(8, meter.getId());
+			statement.setString(1, id);
+			statement.setString(2, name);
+			statement.setString(3, connection_type);
+			statement.setString(4, estimated_power_consumption);
+			statement.setString(5, owner);
+			statement.setString(6, initialized_date);
+			statement.setString(7, initialized_emp);
+			statement.setString(8, location);
 
 			statement.executeUpdate();
 			connection.close(); 
