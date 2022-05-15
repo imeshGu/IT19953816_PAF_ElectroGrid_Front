@@ -35,14 +35,19 @@ public class MeterprofileDao {
 	
 
 	// insert data into meterprofile database
-	public int registerMeterprofile(Meterprofile meterprofile) {
+	public String registerMeterprofile(Meterprofile meterprofile) {
 		String insert_meterprofile = "insert into electrogrid_meterprofile.meterprofile"
 				+ "(id, name, connection_type,estimated_power_consumptionl, owner, initialized_date, initialized_emp, location) values"
 				+ "(?, ?, ?, ?, ?, ?, ?, ?);";
 		System.out.println("registerMeterprofile");
 		int result = 0;
+		String output = "";
 		try {
 			Connection connection = getConnection();
+			if (connection == null) 
+			 { 
+				return "Error while connecting to the database for inserting."; 
+			 } 
 			PreparedStatement preparedStatement = connection.prepareStatement(insert_meterprofile);
 
 			preparedStatement.setString(1, meterprofile.getId());
@@ -55,13 +60,18 @@ public class MeterprofileDao {
 			preparedStatement.setString(8, meterprofile.getLocation());
 
 			System.out.println(preparedStatement);
-			result = preparedStatement.executeUpdate();
+			preparedStatement.executeUpdate();
+			connection.close();
+			
+			String newMeter = selectAllMeterprofile(); 
+			 output = "{\"status\":\"success\", \"data\": \"" + 
+					 newMeter + "\"}"; 
 
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 
-		return result;
+		return output;
 
 	}
 
@@ -104,12 +114,20 @@ public class MeterprofileDao {
 
 	// retrieve all meter profiles 
 	// output a list of meter profile objects
-	public List<Meterprofile> selectAllMeterprofile() {
+	public String selectAllMeterprofile() {
 
 		String select_meterprofile_by_user = "select * from electrogrid_meterprofile.meterprofile;";
 		List<Meterprofile> meterprofiles = new ArrayList<>();
 		Connection connection = null;
 
+		// Prepare the html table to be displayed
+		String output = "<table border='1'><tr><th>Meterprofile No</th><th>Name</th>" +
+				"<th>Connection Type</th>" + 
+				"<th>Estimated Power Consumption</th>" +
+				"<th>Owner</th>" + "<th>Initialized Date</th>" +
+				"<th>Initialized Employee</th>" + "<th>location</th>" + 
+				"<th>Update</th><th>Request for Removal</th></tr>";
+		
 		try {
 			connection = getConnection();//get connection between database 
 			PreparedStatement statement = connection.prepareStatement(select_meterprofile_by_user);
@@ -128,6 +146,20 @@ public class MeterprofileDao {
 				System.out.println(id);
 				meterprofiles.add(new Meterprofile(id, name, connection_type, estimated_power_consumption, owner,
 						initialized_date, initialized_emp, location));
+				
+				// Add into the html table
+				output += "<tr><td><input type='hidden' name='hideMeterprofileDUpdate' id='hideMeterprofileDUpdate' value='"+id+"'>" + id + "</td>"; 
+				output += "<td>" + name + "</td>"; 
+				output += "<td>" + connection_type + "</td>"; 
+				output += "<td>" + estimated_power_consumption + "</td>";
+				output += "<td>" + owner + "</td>";
+				output += "<td>" + initialized_date + "</td>"; 
+				output += "<td>" + initialized_emp + "</td>"; 
+				output += "<td>" + location + "</td>";
+				//btn
+				output += "<td><input name='btnUpdate' type='button' value='Update' class='btnUpdate btn btn-secondary' data-inquiryid='"+id+"'></td>"
+						+ "<td><input name='btnRemove' type='button' value='Remove' class='btnRemove btn btn-secondary' data-inquiryid='"+id+"'></td></tr>"; 
+
 
 				}
 
@@ -135,9 +167,11 @@ public class MeterprofileDao {
 
 		} catch (Exception e) {
 			
-			System.out.println(e);
+			output = "Error while reading the items."; 
+			System.err.println(e.getMessage()); 
+
 		}
-		return meterprofiles;
+		return output;
 	}
 	//retrieve meter profile by its id
 	//output a meter profile objects
@@ -216,10 +250,15 @@ public class MeterprofileDao {
 	public String updateMeterprofile(Meterprofile meter) {
 		String update_meterprofile = "update electrogrid_meterprofile.meterprofile set name=?,connection_type=?,estimated_power_consumption=?,owner=?,initialized_date=?,initialized_emp=?,location=? where id=?;";
 
-		int result = 0;
+	
+		String output = ""; 
 		Connection connection = null;
 		try {
 			connection = getConnection();
+			if (connection == null) 
+			 { 
+				return "Error while connecting to the database for updating."; 
+			 } 
 			PreparedStatement statement = connection.prepareStatement(update_meterprofile);
 			statement.setString(1, meter.getName());
 			statement.setString(2, meter.getConnection_type());
@@ -230,32 +269,44 @@ public class MeterprofileDao {
 			statement.setString(7, meter.getLocation());
 			statement.setString(8, meter.getId());
 
-			result = statement.executeUpdate();
+			statement.executeUpdate();
+			connection.close(); 
+			
+			String newMeter = selectAllMeterprofile(); 
+			output = "{\"status\":\"success\", \"data\": \"" + 
+					 newMeter + "\"}"; 
 
 		} catch (Exception e) {
-			System.out.println("have an error in Dao update!!!!");
-			System.out.println(e);
+			output = "{\"status\":\"error\", \"data\": \"Error while updating the item.\"}"; 
+			System.err.println(e.getMessage()); 
 		}
 
-		return Integer.toString(result);
+		return output;
 	}
 	//delete meter profile
-	public int deleteMeterprofile(String id) {
+	public String deleteMeterprofile(String id) {
 		System.out.println("Here at Dao");
 		String delete_meterprofile = "delete from electrogrid_meterprofile.meterprofile where id=?;";
-
-		int result = 0;
+		String output = ""; 
 		Connection connection = null;
 		try {
 			connection = getConnection();
 			PreparedStatement statement = connection.prepareStatement(delete_meterprofile);
 			statement.setString(1, id);
-			result = statement.executeUpdate();
+			statement.executeUpdate();
+			connection.close();
+			
+			String newMeter = selectAllMeterprofile(); 
+			output = "{\"status\":\"success\", \"data\": \"" + 
+					 newMeter + "\"}"; 
+
+			
 		} catch (Exception e) {
-			System.out.println("Exception found in delete Dao");
-			System.out.println(e);
+			output = "{\"status\":\"error\", \"data\": \"Error while deleting the item.\"}"; 
+			System.err.println(e.getMessage()); 
+
 		}
-		return result;
+		return output;
 	}
 
 	public String getCostomers() {
