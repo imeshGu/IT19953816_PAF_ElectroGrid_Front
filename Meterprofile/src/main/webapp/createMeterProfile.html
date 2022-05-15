@@ -22,6 +22,12 @@
 <!-- Custom styles for this template-->
 <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
+
+
+<script src="Components/jquery-3.6.0.min.js"></script>
+<script src="Components/meterprofile.js"></script>
+
+
 </head>
 
 <body id="page-top">
@@ -247,57 +253,56 @@
 								<form class="form" action="http://localhost:8088/Meterprofile/myService/meterprofile/insert_postman" method=post>
 									<div>
 										<lablel for="" class="form-label">ID</lablel>
-										<input type="text" class="form-control" name="id" aria-describedby="">
+										<input type="text" class="form-control" id="id" name="id" aria-describedby="">
 										<div id="" class="form-text"></div>
 										
 									</div>
 									<div class="mb-3">
 										
 										<label for="meterprofile_name" class="form-label">Name</label>
-										<input type="text" class="form-control" name="name"
+										<input type="text" class="form-control" id="name" name="name"
 											aria-describedby="emailHelp">
 										<div id="emailHelp" class="form-text">We'll never share
 											your email with anyone else.</div>
 									</div>
 									<div>
 										<lablel for="" class="form-label">Connection Type</lablel>
-										<input type="text" class="form-control" name="connection_type" aria-describedby="">
+										<input type="text" class="form-control" id="connection_type" name="connection_type" aria-describedby="">
 										<div id="" class="form-text"></div>
 										
 									</div>
 									<div>
 										<lablel for="" class="form-label">Estimated Power Consuption</lablel>
-										<input type="text" class="form-control" name="estimated_power_consumption" aria-describedby="">
+										<input type="text" class="form-control" id="estimated_power_consumption" name="estimated_power_consumption" aria-describedby="">
 										<div id="" class="form-text"></div>
 										
 									</div>
 									<div>
 										<lablel for="" class="form-label">Owner</lablel>
-										<input type="text" class="form-control" name="owner" aria-describedby="">
+										<input type="text" class="form-control" id="owner" name="owner" aria-describedby="">
 										<div id="" class="form-text"></div>
 										
 									</div><div>
 										<lablel for="" class="form-label">Initialized date</lablel>
-										<input type="date" class="form-control" name="initialized_date" aria-describedby="">
+										<input type="date" class="form-control" id="initialized_date" name="initialized_date" aria-describedby="">
 										<div id="" class="form-text"></div>
 									
 									</div><div>
 										<lablel for="" class="form-label">Initialized Employee</lablel>
-										<input type="text" class="form-control form-control-user" name="initialized_emp" aria-describedby="">
+										<input type="text" class="form-control form-control-user" id="initialized_emp"  name="initialized_emp" aria-describedby="">
 										<div id="" class="form-text"></div>
 										
 									</div><div>
 										<lablel for="" class="form-label">Location</lablel>
-										<input type="text" class="form-control form-control-user" name="location" aria-describedby="">
+										<input type="text" class="form-control form-control-user" id="location"  name="location" aria-describedby="">
 										<div id="" class="form-text"></div>
 										
 									</div>
 									<div>
-										<input type="submit" class="form-control form-control-user" value="Register MeterProfile" aria-describedby="">
-										
-										<div id="" class="form-text"></div>
-										<button id="submit" class="btn btn-primary" >Register MeterProfile</button>
+										<button id="submit" name="submit" class="btn btn-primary" value="save" >Register MeterProfile</button>
 									</div>
+									<input type="hidden" id="hidItemIDSave" name="hidItemIDSave" value="">
+									
 								</form>
 							</div>
 						</div>
